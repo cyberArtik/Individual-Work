@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Retirement calculator</title>
+	<link rel="stylesheet" href="css/main.css" />
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,300i,400,700&display=swap&subset=cyrillic-ext"
+		rel="stylesheet" />
+</head>
+
+<body>
+	<main class="calc-wrapper">
+		<div class="container">
+			<form id="form">
+				<div class="heading">
+					<h1 class="heading-title">Retirement Calculator</h1>
+					<p class="heading-desc">Ilico Artemie, FAF-231</p>
+				</div>
+
+
+				<!-- Data nașterii + Gender -->
+				<div class="calc-section container-glass">
+					<div class="form-group-wrapper">
+						<div class="form-group-birth">
+							<label for="birth-date" class="checkbox-wrapper title-bold section-title">Data
+								nașterii</label>
+							<input type="number" id="birth-day" name="birthDay" min="1" max="31" placeholder="DD"
+								class="title__inline input-birth" maxlength="2" required />
+							<input type="number" id="birth-month" name="birthMonth" min="1" max="12" placeholder="MM"
+								class="title__inline input-birth" maxlength="2" required />
+							<input type="number" id="birth-year" name="birthYear" min="1900" placeholder="YYYY"
+								class="title__inline input-birth" maxlength="4" required />
+						</div>
+						<div class="form-group-gender">
+							<label for="birth-date" class="checkbox-wrapper title-bold section-title">Gender</label>
+							<button class="input-male" type="button" onclick="setGender('Male')">Male</button>
+							<button class="input-female" type="button" onclick="setGender('Female')">Female</button>
+							<input type="hidden" id="gender" name="gender" value="">
+						</div>
+					</div>
+				</div>
+				 <!-- Tab links -->
+				 <div class="calc-section container-glass">
+					 <div class="tab">
+						<button type="button" class="tablinks active" onclick="openMode(event, 'Simple')">Simple Mode</button>
+						<button type="button" class="tablinks" onclick="openMode(event, 'Expanded')">Expanded Mode</button>
+					</div>
+				 </div>
+			<div id="Simple" class="tabcontent" style="display: block;">
+				<!-- Numărul de ani lucrăți -->
+				<div class="calc-section">
+					<label for="years-worked" class="checkbox-wrapper title-bold section-title">Stagiul total de cotizare:</label>
+					<input type="number" id="years-worked" name="yearsWorked" min="0" class="title__inline input-full"
+						placeholder="Stagiul total de cotizare" />
+				</div>
+				<!--Venitul mediu lunar asigurat valorizat -->
+				<div class="calc-section">
+					<label class="checkbox-wrapper title-bold section-title .section-title--vertical-center">
+						<span class="title__inline">Venitul mediu lunar asigurat valorizat:</span>
+						<input type="number" min="0" max="100000" value="5000" id="square-input"
+							class="title__inline input-short" />
+						<span class="title__inline">lei</span>
+					</label>
+					<input type="range" id="square-range" class="range-input" min="0" max="100000" value="5000"
+						step="100" />
+				</div>
+			</div>
+
+				<div id="Expanded" class="tabcontent">
+					<!-- Contributory periods container -->
+					<div id="periods-container">
+						<!-- Contribution periods added by JavaScript -->
+					</div>
+					
+					<!-- Buttons to add and delete periods -->
+					<button type="button" id="add-period-btn">Add Contribution Period</button>
+					<button type="button" id="add-noncontrib-period-btn">Add Non-Contributory Period</button>
+					<button type="button" id="delete-period-btn" style="background-color: red;">Delete Last Period</button>
+					
+					<!-- Inputs for salaries -->
+					<div class="calc-section">
+						<label for="s-min" class="checkbox-wrapper title-bold section-title">Salariul minim lunar pe țară:</label>
+						<input type="number" id="s-min" name="sMin" min="0" class="title__inline input-full" placeholder="Salariul minim lunar pe țară" required />
+					
+						<label for="s-med" class="checkbox-wrapper title-bold section-title">Salariul mediu lunar pe țară:</label>
+						<input type="number" id="s-med" name="sMed" min="0" class="title__inline input-full" placeholder="Salariul mediu lunar pe țară" required />
+					</div>
+					
+					<!-- Estimated pension display -->
+					<div class="calc-price">
+						<div class="calc-price-title">Pensia aproximativa:</div>
+						<div class="calc-price-value"><span id="total-pension">0</span> lei</div>
+					</div>
+				</div>
+
+				<!-- Dizabilitate -->
+				<div class="calc-section">
+					<h4 class="checkbox-wrapper title-bold section-title">Pensie de dizabilitate</h4>
+					<label class="radio-wrapper" data-name="mobile">
+						<input type="radio" class="radio" name="type" value="1" checked/>
+						<div class="title-lite">Absent
+							<span class="note">Nu se considera gradul de dizabilitate</span>
+						</div>
+					</label>
+					<label class="radio-wrapper" data-name="mobile">
+						<input type="radio" class="radio" name="type" value="2" />
+						<div class="title-lite">Sever
+							<span class="note">75% din cuantumul pensiei minime pentru limită de vârstă</span>
+						</div>
+					</label>
+					<label class="radio-wrapper" data-name="mobile">
+						<input type="radio" class="radio" name="type" value="3" />
+						<div class="title-lite">
+							Accentuat
+							<span class="note">70% din cuantumul pensiei minime pentru limită de vârstă </span>
+						</div>
+					</label>
+					<label class="radio-wrapper" data-name="mobile">
+						<input type="radio" class="radio" name="type" value="4" />
+						<div class="title-lite">
+							Mediu
+							<span class="note">50% din cuantumul pensiei minime pentru limită de vârstă</span>
+						</div>
+					</label>
+				</div>
+				<!-- Display pensia -->
+				<div class="calc-price">
+					<div class="calc-price-title">Cuantumul Pensiei aproximativ:  </div>
+					<div class="calc-price-value">
+						<span id="total-price">0</span>
+						lei
+					</div>
+					<div class="calc-ages-remain"> 
+						<span id="total-price2"></span>
+					</div> 
+					<div class="calc-pension">
+					</div>
+					<div id="contribution-message"></div>
+
+				</div>
+				<button type="button" id="calculate-pension-btn">Calculeaza Cuantumul Pensiei</button>
+			</form>
+		</div>
+	</main>
+
+	<footer class="footer footer-inner">
+		<div class="container">
+
+		</div>
+	</footer>
+
+	<script src="js/main.js"></script>
+	<script src="js/test-pension.js"></script>
+</body>
+
+</html>
